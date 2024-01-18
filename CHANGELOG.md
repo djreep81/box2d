@@ -1,3 +1,8 @@
+# Changes for version 2.4.2
+
+## API Changes
+- Contact can now be disabled and persisted with addtional optional parameter
+
 # Changes for version 2.4.1
 
 ## API Changes

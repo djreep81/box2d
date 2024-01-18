@@ -103,7 +103,7 @@ public:
 	/// Enable/disable this contact. This can be used inside the pre-solve
 	/// contact listener. The contact is only disabled for the current
 	/// time step (or sub-step in continuous collisions).
-	void SetEnabled(bool flag);
+	void SetEnabled(bool flag, bool persist = false);
 
 	/// Has this contact been disabled?
 	bool IsEnabled() const;
@@ -191,7 +191,10 @@ protected:
 		e_bulletHitFlag		= 0x0010,
 
 		// This contact has a valid TOI in m_toi
-		e_toiFlag			= 0x0020
+		e_toiFlag			= 0x0020,
+
+		//This contact can be disabled AND persisted through the life of the contact
+		e_persistEnabledFlag = 0x0040
 	};
 
 	/// Flag this contact for filtering. Filtering will occur the next time step.
@@ -261,7 +264,7 @@ inline void b2Contact::GetWorldManifold(b2WorldManifold* worldManifold) const
 	worldManifold->Initialize(&m_manifold, bodyA->GetTransform(), shapeA->m_radius, bodyB->GetTransform(), shapeB->m_radius);
 }
 
-inline void b2Contact::SetEnabled(bool flag)
+inline void b2Contact::SetEnabled(bool flag, bool persist)
 {
 	if (flag)
 	{
@@ -270,6 +273,14 @@ inline void b2Contact::SetEnabled(bool flag)
 	else
 	{
 		m_flags &= ~e_enabledFlag;
+	}
+	if (persist)
+	{
+		m_flags |= e_persistEnabledFlag;
+	}
+	else {
+	{
+		m_flags &= ~e_persistEnabledFlag;
 	}
 }
 
