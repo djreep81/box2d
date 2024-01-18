@@ -278,7 +278,7 @@ inline void b2Contact::SetEnabled(bool flag, bool persist)
 	{
 		m_flags |= e_persistEnabledFlag;
 	}
-	else {
+	else
 	{
 		m_flags &= ~e_persistEnabledFlag;
 	}
